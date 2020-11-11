@@ -60,6 +60,7 @@ const Project: React.FC = () => {
     }
     useEffect(() => {
         loadProjects()
+    // eslint-disable-next-line
     }, [params.slug])
 
 
