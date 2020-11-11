@@ -1,9 +1,9 @@
 import React, { useRef, useCallback } from 'react'
 
-import { FiUser, FiLock } from 'react-icons/fi'
+import { FiUser, FiLock, FiLogIn } from 'react-icons/fi'
 import { Form } from '@unform/web'
 import { FormHandles } from '@unform/core'
-import { useHistory } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import * as Yup from 'yup'
 
 import { useAuth } from '../../hooks/auth'
@@ -29,6 +29,7 @@ const SignIn: React.FC = () => {
 
     const handleSubmit = useCallback(
         async (data: SignInFormData) => {
+
             try {
                 formRef.current?.setErrors({})
                 const schema = Yup.object().shape({
@@ -71,7 +72,7 @@ const SignIn: React.FC = () => {
         <Container>
             <Content>
                 <AnimationContainer>
-                    <img src={logoImg} alt="logo" />
+                    <img src={logoImg} alt="logo" style={{ borderRadius: 12 }} />
                     <Form ref={formRef} onSubmit={handleSubmit}>
                         <h1>Faça seu logon</h1>
                         <Input
@@ -90,6 +91,10 @@ const SignIn: React.FC = () => {
 
                     </Form>
 
+                    <Link to="/signup">
+                        <FiLogIn />
+                        Create Account
+                    </Link>
                 </AnimationContainer>
             </Content>
             <Background />

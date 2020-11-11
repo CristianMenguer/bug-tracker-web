@@ -31,26 +31,17 @@ const SignUp: React.FC = () => {
             try {
                 formRef.current?.setErrors({})
                 const schema = Yup.object().shape({
-                    name: Yup.string().required('Nome obrigatório'),
+                    name: Yup.string().required('Please, type the name'),
                     email: Yup.string()
-                        .email('Digite email válido')
-                        .required('Email obrigatório'),
-                    password: Yup.string().min(6, 'Mínimo de 6 dígitos'),
+                        .email('Please, type a valid email')
+                        .required('Please, type the email'),
+                    password: Yup.string().min(6, 'Password at least 6 characters'),
                 })
 
                 await schema.validate(data, {
                     abortEarly: false,
                 })
 
-                await api.post('/users', data)
-
-                addToast({
-                    type: 'success',
-                    title: 'Cadastro realizado.',
-                    description: 'Você já pode fazer o logon no GoBarber!',
-                })
-
-                history.push('/')
             } catch (err) {
                 const errors = getValidationErrors(err)
 
@@ -58,10 +49,43 @@ const SignUp: React.FC = () => {
 
                 addToast({
                     type: 'error',
-                    title: 'Erro no cadastro',
-                    description: 'Ocorreu um erro ao fazer cadastro, tente novamente.',
+                    title: 'Error registering',
+                    description: 'Something went wrong, please try again in a few minutes!',
                 })
+
+                return
             }
+
+            try {
+                const response = await api.post('/users', { ...data, usertype: 'user' })
+                console.log(response.statusText)
+
+            } catch (err) {
+                if (err.response.data.message) {
+                    addToast({
+                        type: 'error',
+                        title: 'Error registering',
+                        description: err.response.data.message,
+                    })
+                } else {
+                    addToast({
+                        type: 'error',
+                        title: 'Error registering',
+                        description: 'Something went wrong, please try again in a few minutes!',
+                    })
+                }
+
+                return
+            }
+
+            addToast({
+                type: 'success',
+                title: 'User registered.',
+                description: 'You can logon now!',
+            })
+
+            history.push('/')
+
         },
         [addToast, history],
     )
@@ -71,10 +95,11 @@ const SignUp: React.FC = () => {
             <Background />
             <Content>
                 <AnimationContainer>
-                    <img src={logoImg} alt="logo" />
+                    <img src={logoImg} alt="logo" style={{ borderRadius: 12 }} />
                     <Form ref={formRef} onSubmit={handleSubmit}>
                         <h1>Faça seu cadastro</h1>
-                        <Input name="name" icon={FiUser} type="text" placeholder="Nome" />
+                        <Input name="name" icon={FiUser} type="text" placeholder="Name" />
+                        <Input name="username" icon={FiUser} type="text" placeholder="Username" />
                         <Input
                             name="email"
                             icon={FiMail}
@@ -85,14 +110,14 @@ const SignUp: React.FC = () => {
                             name="password"
                             icon={FiLock}
                             type="password"
-                            placeholder="Senha"
+                            placeholder="Password"
                         />
-                        <Button type="submit">Cadastrar</Button>
+                        <Button type="submit">Register</Button>
                     </Form>
 
                     <Link to="/">
                         <FiArrowLeft />
-            Voltar para Logon
+                        Back to Logon
                     </Link>
                 </AnimationContainer>
             </Content>
