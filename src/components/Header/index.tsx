@@ -1,7 +1,6 @@
 import React from 'react'
 
-import { FiPower } from 'react-icons/fi'
-import { Link } from 'react-router-dom'
+import { FiPower, FiUser } from 'react-icons/fi'
 import { useAuth } from '../../hooks/auth'
 import logoImg from '../../assets/logo.jpg'
 
@@ -13,15 +12,13 @@ const Header: React.FC = () => {
     return (
         <Container>
             <HeaderContent>
-                <img src={logoImg} alt="logo" />
+                <img src={logoImg} alt="logo" style={{ borderRadius: 12 }} />
 
                 <Profile>
-                    <img src={user.avatar_url} alt={user.id} />
+                    <FiUser size={48} />
                     <Info>
                         <span>Welcome, </span>
-                        <Link to="/profile">
-                            <strong>{user.name}</strong>
-                        </Link>
+                        <p><strong>{user.name}</strong></p>
                     </Info>
                 </Profile>
 

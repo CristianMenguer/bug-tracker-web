@@ -50,7 +50,7 @@ export const Info = styled.div`
         color: #f4ede8;
     }
 
-    a {
+    p {
         text-decoration: none;
 
         strong {
