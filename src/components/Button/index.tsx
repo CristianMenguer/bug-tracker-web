@@ -1,13 +1,13 @@
-import React, { ButtonHTMLAttributes } from 'react';
+import React, { ButtonHTMLAttributes } from 'react'
 
-import { Container } from './styles';
+import { Container } from './styles'
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  isLoading?: boolean;
+    isLoading?: boolean
 }
 
 const Button: React.FC<ButtonProps> = ({ children, isLoading, ...rest }) => (
-  <Container {...rest}>{isLoading ? 'Carregando...' : children}</Container>
-);
+    <Container {...rest}>{isLoading ? 'Carregando...' : children}</Container>
+)
 
-export default Button;
+export default Button
