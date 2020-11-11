@@ -81,7 +81,7 @@ const Project: React.FC = () => {
                         <p>Description: {project.description}</p>
                     </div>
                 )) || (
-                    <Title >{/**Loading project {params.slug} */}</Title>
+                    <Title >Loading project {params.slug}</Title>
                 )}
 
                 {(project && project.issues && project.issues.length > 0 && (
