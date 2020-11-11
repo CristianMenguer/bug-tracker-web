@@ -12,7 +12,7 @@ export const Content = styled.main`
     max-width: 1120px;
     margin: 64px auto;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: wrap;
 `
 
@@ -87,4 +87,18 @@ export const Label = styled.p<LabelProps>`
         `
 }
 
+`
+export const BackTo = styled.div`
+
+    a {
+        text-decoration: none;
+
+        p {
+            color: #ff9000;
+
+            &:hover {
+                opacity: 0.8;
+            }
+        }
+    }
 `
