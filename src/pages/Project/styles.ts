@@ -19,7 +19,7 @@ export const Content = styled.main`
 export const Title = styled.p`
     flex-basis: 100%;
     font-size: 48px;
-    margin: 8px;
+    margin: 8px 0 8px 0;
 `
 
 export const ProjectCard = styled.div`
@@ -65,7 +65,7 @@ export const Label = styled.p<LabelProps>`
             padding-bottom: 4px;
 
         `
-}
+    }
 
     ${(props) =>
         props.isName &&
@@ -75,7 +75,7 @@ export const Label = styled.p<LabelProps>`
             font-weight: 500;
             color: #312e38;
         `
-}
+    }
 
     ${(props) =>
         props.isDescription &&
@@ -85,7 +85,7 @@ export const Label = styled.p<LabelProps>`
             font-weight: 500;
             color: #312e38cc;
         `
-}
+    }
 
 `
 export const BackTo = styled.div`
@@ -101,4 +101,38 @@ export const BackTo = styled.div`
             }
         }
     }
+`
+
+export const Table = styled.table`
+    width: 100%;
+    color: #312e38;
+
+    tr {
+        background-color: #ff9000;
+    }
+
+    tr + tr {
+        background-color: #aaa;
+        cursor: context-menu;
+
+        &:nth-child(even) {
+            background-color: #888;
+        }
+
+        &:hover {
+            background-color: #ddd;
+        }
+    }
+
+
+    td, th {
+        padding: 4px;
+        text-align: center;
+    }
+`
+
+export const IssueTitle = styled.p`
+    flex-basis: 100%;
+    font-size: 36px;
+    margin: 64px 0 8px 0;
 `
