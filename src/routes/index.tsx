@@ -8,6 +8,7 @@ import SignUp from '../pages/SignUp'
 
 import Dashboard from '../pages/Dashboard'
 import Project from '../pages/Project'
+import Issue from '../pages/Issue'
 
 const Routes: React.FC = () => (
     <Switch>
@@ -16,6 +17,7 @@ const Routes: React.FC = () => (
 
         <Route path="/dashboard" component={Dashboard} isPrivate />
         <Route path="/project/:slug+" component={Project} isPrivate />
+        <Route path="/issue/:slugNumber+" component={Issue} isPrivate />
     </Switch>
 )
 

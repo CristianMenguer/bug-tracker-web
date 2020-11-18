@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { useRouteMatch, Link } from 'react-router-dom'
 import { format } from 'date-fns'
-import { TiDelete } from 'react-icons/ti'
+import { AiOutlineFolderOpen, AiFillCloseCircle } from 'react-icons/ai'
+import { ImBlocked } from 'react-icons/im'
+import { GrInProgress } from 'react-icons/gr'
 
-import { Container, Content, Title, BackTo, IssueTitle, Table } from './styles'
+import { Container, Content, Title, BackTo, IssueTitle, Table, LinkComment, IssueDescription } from './styles'
 
 import api from '../../services/api'
 import Header from '../../components/Header'
+import { useAuth } from '../../hooks/auth'
 
 interface ProjectParams {
     slug: string
@@ -14,27 +17,14 @@ interface ProjectParams {
 
 const Project: React.FC = () => {
 
+    const { signOut } = useAuth()
+
     const { params } = useRouteMatch<ProjectParams>()
 
     const [project, setProject] = useState<Project>()
-    const [issueSelected, setIssueSelected] = useState<Issue>()
-    const [users, setUsers] = useState<User[]>()
     const [errorMessage, setErrorMessage] = useState('Loading project ' + params.slug)
 
-
     async function loadProjects(): Promise<void> {
-
-        let newUsers = users
-
-        if (!newUsers || newUsers.length === 0) {
-            const response = await api.get<User[]>('/users')
-            newUsers = response.data
-            setUsers(newUsers)
-        }
-
-        if (!newUsers || newUsers.length === 0)
-            return
-        //
 
         let response
 
@@ -43,30 +33,16 @@ const Project: React.FC = () => {
         } catch (err) {
             if (err.response.data.message === 'Project not found!')
                 setErrorMessage(`Project '${params.slug}' not found!`)
-            else
+            else if (err.response.status === 401) {
+                signOut()
+            } else
                 setErrorMessage(`Error loading project '${params.slug}'!`)
             return
         }
 
-
         if (response.data) {
             const newProject = response.data
             setProject(newProject)
-            if (newProject.issues && newProject.issues.length > 0) {
-                newProject.issues.map((issue) => {
-                    if (issue.comments && issue.comments.length > 0) {
-                        issue.comments.map(comment => {
-                            if (newUsers && newUsers.length > 0) {
-                                const newUser = newUsers.filter(user => user._id === comment.user_id)
-                                comment.user = newUser[0]
-                            }
-                            return comment
-                        })
-                    }
-                    return issue
-                })
-                setProject(newProject)
-            }
         }
     }
 
@@ -75,9 +51,23 @@ const Project: React.FC = () => {
         // eslint-disable-next-line
     }, [params.slug])
 
-    function handleSelectIssue(issue: Issue) {
-        if (issue && issue._id && issue._id !== '')
-            setIssueSelected(issue)
+    async function handleChangeIssueStatus(issue: Issue, newStatus: string): Promise<void> {
+        if (window.confirm(`Are you sure you wish to change issue status to '${newStatus}'?`)) {
+            try {
+                await api.put(`/issues/${params.slug}-${issue.number}/${newStatus}`)
+            } catch (err) {
+                console.log('Error: ' + err.response)
+                alert('Something did not go well, please, try again!')
+                return
+            }
+            //
+            const newProject = Object.assign({}, project)
+            newProject?.issues.map(element => {
+                if (element._id === issue._id)
+                    element.status = newStatus
+            })
+            setProject(newProject)
+        }
     }
 
     return (
@@ -104,6 +94,7 @@ const Project: React.FC = () => {
                     (project && project.issues && project.issues.length > 0) ? (
                         <>
                             <IssueTitle>Issues</IssueTitle>
+                            <IssueDescription>Click on the number of comments to see them</IssueDescription>
                             <Table >
                                 <tbody>
                                     <tr>
@@ -114,18 +105,62 @@ const Project: React.FC = () => {
                                         <th>Duo Date</th>
                                         <th>Status</th>
                                         <th>Comments</th>
-                                        <th></th>
+                                        <th>Open</th>
+                                        <th>Wip</th>
+                                        <th>Block</th>
+                                        <th>Close</th>
                                     </tr>
                                     {project.issues.map((issue) => (
-                                        <tr key={issue._id} onClick={() => handleSelectIssue(issue)} >
+                                        <tr key={issue._id} >
                                             <td>{issue.number}</td>
                                             <td>{issue.title}</td>
                                             <td>{issue.description}</td>
                                             <td>{format(new Date(issue.created_at), 'dd/MM/yyyy')}</td>
                                             <td>{issue.due_date ? format(new Date(issue.due_date), 'dd/MM/yyyy') : 'No due date'}</td>
                                             <td>{issue.status}</td>
-                                            <td>{(issue.comments && issue.comments?.length) ? issue.comments?.length : 0}</td>
-                                            <td><TiDelete style={{cursor: 'pointer'}} size={32} /></td>
+                                            <td>
+                                                <LinkComment >
+                                                    <Link to={`/issue/${params.slug}-${issue.number}`} >
+                                                        {(issue.comments && issue.comments?.length) ? issue.comments?.length : 0}
+                                                    </Link>
+                                                </LinkComment>
+                                            </td>
+                                            <td>
+                                                {issue.status !== 'open' && (
+                                                    <AiOutlineFolderOpen
+                                                        style={{ cursor: 'pointer' }}
+                                                        size={18}
+                                                        onClick={() => handleChangeIssueStatus(issue, 'open')}
+                                                    />
+                                                )}
+                                            </td>
+                                            <td>
+                                                {issue.status !== 'wip' && (
+                                                    <GrInProgress
+                                                        style={{ cursor: 'pointer' }}
+                                                        size={18}
+                                                        onClick={() => handleChangeIssueStatus(issue, 'wip')}
+                                                    />
+                                                )}
+                                            </td>
+                                            <td>
+                                                {issue.status !== 'blocked' && (
+                                                    <ImBlocked
+                                                        style={{ cursor: 'pointer' }}
+                                                        size={17}
+                                                        onClick={() => handleChangeIssueStatus(issue, 'blocked')}
+                                                    />
+                                                )}
+                                            </td>
+                                            <td>
+                                                {issue.status !== 'closed' && (
+                                                    <AiFillCloseCircle
+                                                        style={{ cursor: 'pointer' }}
+                                                        size={18}
+                                                        onClick={() => handleChangeIssueStatus(issue, 'closed')}
+                                                    />
+                                                )}
+                                            </td>
                                         </tr>
                                     ))}
                                 </tbody>
@@ -134,30 +169,6 @@ const Project: React.FC = () => {
                     ) :
                         (<IssueTitle>No issue found to this project!</IssueTitle>)
                 }
-
-
-
-                {issueSelected && issueSelected._id && issueSelected._id !== '' &&
-
-                    (issueSelected.comments && issueSelected.comments.length > 0 && (
-                        <>
-                            <IssueTitle>Comments for issue: "{issueSelected.title}" ({project?.slug}-{issueSelected.number})</IssueTitle>
-
-                            <div style={{ marginTop: '8px' }} >
-                                <hr />
-                                {issueSelected.comments.map((comment) =>
-                                    <div key={comment._id} style={{ marginTop: '4px' }} >
-                                        <p style={{ backgroundColor: '#000', padding: 8 }} >{comment.user?.name} at {format(new Date(comment.created_at), 'dd/MM/yyyy')}</p>
-                                        <p>Title: {comment.title}</p>
-                                        <p>Text: {comment.text}</p>
-                                        <p>Number: {comment.number}</p>
-                                        <hr />
-                                    </div>
-                                )}
-                            </div>
-                        </>
-                    ))}
-
             </Content >
         </Container >
     )

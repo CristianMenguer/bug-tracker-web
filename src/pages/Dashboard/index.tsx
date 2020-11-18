@@ -5,8 +5,11 @@ import { Link } from 'react-router-dom'
 import { Container, Content, Title, Label, ProjectCard } from './styles'
 
 import api from '../../services/api'
+import { useAuth } from '../../hooks/auth'
 
 const Dashboard: React.FC = () => {
+
+    const { signOut } = useAuth()
 
     const [projects, setProjects] = useState<Project[]>([])
 
@@ -17,7 +20,11 @@ const Dashboard: React.FC = () => {
                 if (response.data && response.data.length > 0)
                     setProjects(response.data)
             })
-    }, [])
+            .catch(response => {
+                if (response.response.status === 401)
+                    signOut()
+            })
+    }, [signOut])
 
     return (
         <Container>

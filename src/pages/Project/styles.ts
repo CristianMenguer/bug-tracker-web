@@ -124,7 +124,6 @@ export const Table = styled.table`
         }
     }
 
-
     td, th {
         padding: 4px;
         text-align: center;
@@ -134,5 +133,19 @@ export const Table = styled.table`
 export const IssueTitle = styled.p`
     flex-basis: 100%;
     font-size: 36px;
-    margin: 64px 0 8px 0;
+    margin: 32px 0 4px 0;
+`
+
+export const IssueDescription = styled.p`
+flex-basis: 100%;
+font-size: 12px;
+margin-bottom: 24px;
+`
+
+export const LinkComment = styled.div`
+    a {
+        font-weight: 700;
+        text-decoration: none;
+        color: #FF9000;
+    }
 `
