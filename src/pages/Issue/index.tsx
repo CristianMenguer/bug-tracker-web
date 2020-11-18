@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useRouteMatch, useHistory } from 'react-router-dom'
+import { useRouteMatch, useHistory, Link } from 'react-router-dom'
 import { format } from 'date-fns'
 
 import { Container, Content, Title, BackTo, IssueTitle, CommentContainer, Comment } from './styles'
@@ -85,9 +85,10 @@ const Issue: React.FC = () => {
             <Header />
             <Content>
                 <BackTo>
-                    <a >
+
+                    <Link to={``} >
                         <p onClick={() => history.goBack()} >Back to issues</p>
-                    </a>
+                    </Link>
                 </BackTo>
 
                 {(issue && issue.title) ? (

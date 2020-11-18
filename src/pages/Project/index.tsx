@@ -75,7 +75,7 @@ const Project: React.FC = () => {
             <Header />
             <Content>
                 <BackTo>
-                    <Link to='/' >
+                    <Link to={`/project/${params.slug}`} >
                         <p>Back to projects</p>
                     </Link>
                 </BackTo>
