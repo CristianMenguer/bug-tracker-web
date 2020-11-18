@@ -21,6 +21,7 @@ const Issue: React.FC = () => {
 
     const [issue, setIssue] = useState<Issue>()
     const [users, setUsers] = useState<User[]>()
+    const [slug, setSlug] = useState('')
     const [errorMessage, setErrorMessage] = useState('Loading issue ' + params.slugNumber)
 
     async function loadIssue() {
@@ -76,6 +77,7 @@ const Issue: React.FC = () => {
         if (splitString.length !== 2)
             setErrorMessage(`Issue '${slugNumber}' not found!`)
         //
+        setSlug(splitString[0])
         loadIssue()
         // eslint-disable-next-line
     }, [params.slugNumber])
@@ -86,7 +88,7 @@ const Issue: React.FC = () => {
             <Content>
                 <BackTo>
 
-                    <Link to={``} >
+                    <Link to={`/project/${slug}`} >
                         <p onClick={() => history.goBack()} >Back to issues</p>
                     </Link>
                 </BackTo>
