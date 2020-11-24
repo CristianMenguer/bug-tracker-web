@@ -16,10 +16,28 @@ export const Content = styled.main`
     flex-wrap: wrap;
 `
 
-export const Title = styled.p`
+export const Title = styled.div`
     flex-basis: 100%;
-    font-size: 48px;
-    margin: 8px;
+    margin: 8px auto;
+    display: flex;
+
+    p {
+        font-size: 48px;
+    }
+
+    a {
+        text-decoration: none;
+        color: #fff;
+        margin-left: auto;
+        margin-top: 16px;
+
+        transition: 0.3s ease;
+
+        &:hover {
+            opacity: 0.75;
+        }
+    }
+
 `
 
 export const ProjectCard = styled.div`
@@ -65,7 +83,7 @@ export const Label = styled.p<LabelProps>`
             padding-bottom: 4px;
 
         `
-}
+    }
 
     ${(props) =>
         props.isName &&
@@ -75,7 +93,7 @@ export const Label = styled.p<LabelProps>`
             font-weight: 500;
             color: #312e38;
         `
-}
+    }
 
     ${(props) =>
         props.isDescription &&
@@ -85,6 +103,5 @@ export const Label = styled.p<LabelProps>`
             font-weight: 500;
             color: #312e38cc;
         `
-}
-
+    }
 `

@@ -32,6 +32,10 @@ const SignUp: React.FC = () => {
                 formRef.current?.setErrors({})
                 const schema = Yup.object().shape({
                     name: Yup.string().required('Please, type the name'),
+                    username: Yup.string()
+                        .strict(true)
+                        .lowercase('Please, type only lowercase letters to username')
+                        .required('Please, type the username'),
                     email: Yup.string()
                         .email('Please, type a valid email')
                         .required('Please, type the email'),
@@ -43,9 +47,22 @@ const SignUp: React.FC = () => {
                 })
 
             } catch (err) {
-                const errors = getValidationErrors(err)
+                if (err instanceof Yup.ValidationError) {
 
-                formRef.current?.setErrors(errors)
+                    const errors = getValidationErrors(err)
+
+                    //
+                    formRef.current?.setErrors(errors)
+
+                    for (const error in errors)
+                        addToast({
+                            type: 'error',
+                            title: 'Error registering',
+                            description: errors[error],
+                        })
+
+                    return
+                }
 
                 addToast({
                     type: 'error',

@@ -4,8 +4,9 @@ import { format } from 'date-fns'
 import { AiOutlineFolderOpen, AiFillCloseCircle } from 'react-icons/ai'
 import { ImBlocked } from 'react-icons/im'
 import { GrInProgress } from 'react-icons/gr'
+import { BiAddToQueue } from 'react-icons/bi'
 
-import { Container, Content, Title, BackTo, IssueTitle, Table, LinkComment, IssueDescription } from './styles'
+import { Container, Content, Title, BackTo, IssueTitle, Table, LinkComment, IssueDescription, ProjectContainer } from './styles'
 
 import api from '../../services/api'
 import Header from '../../components/Header'
@@ -81,11 +82,19 @@ const Project: React.FC = () => {
                 </BackTo>
 
                 {(project && project.slug && (
-                    <div>
-                        <Title >Slug: {project.slug}</Title>
-                        <p>Name: {project.name}</p>
-                        <p>Description: {project.description}</p>
-                    </div>
+                    <ProjectContainer >
+                        <div>
+                            <Title >Slug: {project.slug}</Title>
+                            <p>Name: {project.name}</p>
+                            <p>Description: {project.description}</p>
+                        </div>
+                        <div>
+                            <Link to={`/project/${params.slug}/new`} title='Add an Issue' >
+                                <BiAddToQueue size={36} />
+                                <p>Add an Issue</p>
+                            </Link>
+                        </div>
+                    </ProjectContainer>
                 )) || (
                         <Title >{errorMessage}</Title>
                     )}

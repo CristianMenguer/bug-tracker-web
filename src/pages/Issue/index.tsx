@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useRouteMatch, useHistory, Link } from 'react-router-dom'
 import { format } from 'date-fns'
+import { BiAddToQueue } from 'react-icons/bi'
 
-import { Container, Content, Title, BackTo, IssueTitle, CommentContainer, Comment } from './styles'
+import { Container, Content, Title, BackTo, IssueTitle, CommentContainer, Comment, IssueContainer } from './styles'
 
 import api from '../../services/api'
 import Header from '../../components/Header'
@@ -87,17 +88,24 @@ const Issue: React.FC = () => {
             <Header />
             <Content>
                 <BackTo>
-
                     <Link to={`/project/${slug}`} >
-                        <p onClick={() => history.goBack()} >Back to issues</p>
+                        <p >Back to issues</p>
                     </Link>
                 </BackTo>
 
                 {(issue && issue.title) ? (
-                    <div>
-                        <Title >{params.slugNumber}: {issue.title}</Title>
-                        <p>Description: {issue.description}</p>
-                    </div>
+                    <IssueContainer >
+                        <div>
+                            <Title >{params.slugNumber}: {issue.title}</Title>
+                            <p>Description: {issue.description}</p>
+                        </div>
+                        <div>
+                            <Link to={`/issue/${params.slugNumber}/new`} title='Add a Comment' >
+                                <BiAddToQueue size={36} />
+                                <p>Add a Comment</p>
+                            </Link>
+                        </div>
+                    </IssueContainer>
                 ) : (
                         <Title >{errorMessage}</Title>
                     )}

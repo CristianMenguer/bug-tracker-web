@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Header from '../../components/Header'
 import { Link } from 'react-router-dom'
+import { HiOutlineDocumentAdd } from 'react-icons/hi'
 
 import { Container, Content, Title, Label, ProjectCard } from './styles'
 
@@ -30,7 +31,13 @@ const Dashboard: React.FC = () => {
         <Container>
             <Header />
             <Content>
-                <Title >Projects</Title>
+                <Title >
+                    <p>Projects</p>
+                    <Link to={'/newProject'} title='Add a Project' >
+                        <HiOutlineDocumentAdd size={36} />
+                    </Link>
+                </Title>
+
                 {projects.length === 0 && (
                     <p>No project found!</p>
                 )}

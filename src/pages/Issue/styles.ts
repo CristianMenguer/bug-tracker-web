@@ -10,6 +10,39 @@ export const Content = styled.main`
     flex-wrap: wrap;
 `
 
+export const IssueContainer = styled.div`
+    width: 100%;
+    margin: 8px auto;
+
+    display: flex;
+    flex-direction: row;
+
+    div {
+        margin-left: 8px;
+    }
+
+    div + div {
+        margin-left: auto;
+        margin-top: 12px;
+
+        a {
+            text-decoration: none;
+            color: #fff;
+            margin-left: auto;
+            margin-top: 16px;
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+
+            transition: 0.3s ease;
+
+            &:hover {
+                opacity: 0.65;
+            }
+        }
+    }
+`
+
 export const Title = styled.p`
     flex-basis: 100%;
     font-size: 48px;
