@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useRouteMatch, useHistory, Link } from 'react-router-dom'
+import { useRouteMatch, Link } from 'react-router-dom'
 import { format } from 'date-fns'
 import { BiAddToQueue } from 'react-icons/bi'
 
@@ -18,7 +18,6 @@ const Issue: React.FC = () => {
     const { signOut } = useAuth()
 
     const { params } = useRouteMatch<IssueParams>()
-    const history = useHistory()
 
     const [issue, setIssue] = useState<Issue>()
     const [users, setUsers] = useState<User[]>()

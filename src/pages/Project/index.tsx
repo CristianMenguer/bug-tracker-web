@@ -43,6 +43,7 @@ const Project: React.FC = () => {
 
         if (response.data) {
             const newProject = response.data
+            console.log(newProject)
             setProject(newProject)
         }
     }
