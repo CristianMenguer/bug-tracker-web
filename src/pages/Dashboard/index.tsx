@@ -22,7 +22,7 @@ const Dashboard: React.FC = () => {
                     setProjects(response.data)
             })
             .catch(response => {
-                if (response.response.status === 401)
+                if (response && response.response && response.response.status && response.response.status === 401)
                     signOut()
             })
     }, [signOut])
@@ -35,6 +35,7 @@ const Dashboard: React.FC = () => {
                     <p>Projects</p>
                     <Link to={'/newProject'} title='Add a Project' >
                         <HiOutlineDocumentAdd size={36} />
+                        <p>Add a Project</p>
                     </Link>
                 </Title>
 

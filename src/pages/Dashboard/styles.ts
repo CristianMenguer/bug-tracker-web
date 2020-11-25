@@ -31,10 +31,19 @@ export const Title = styled.div`
         margin-left: auto;
         margin-top: 16px;
 
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
         transition: 0.3s ease;
 
         &:hover {
             opacity: 0.75;
+        }
+
+        p {
+            font-size: 16px;
+            text-align: center;
         }
     }
 

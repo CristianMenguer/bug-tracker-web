@@ -39,6 +39,10 @@ export const IssueContainer = styled.div`
             &:hover {
                 opacity: 0.65;
             }
+
+            p {
+                text-align: center;
+            }
         }
     }
 `
