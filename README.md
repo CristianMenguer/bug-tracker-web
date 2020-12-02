@@ -1,4 +1,4 @@
-<h1 align='center'>Bug Tracker</h1>
+<h1 align='center'>Bug Tracker - Frontend</h1>
 <br />
 <br />
 
@@ -16,7 +16,7 @@
   </a>
 </p>
 
-<h2 align='center'>A Typescript API developed for study purposes in CCT - Cloud-based Web Applications course</h2>
+<h2 align='center'>A Typescript Reactjs APP developed for study purposes in CCT - Cloud-Based Web Applications course</h2>
 
 <hr />
 
@@ -29,7 +29,7 @@
 
 ## General info
 
-A Nodejs Typescript app built to study API's!
+A Reactjs Typescript App built to study Frontend!
 
 ## Requirements
 
