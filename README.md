@@ -34,7 +34,8 @@ A Reactjs Typescript App built to study Frontend!
 ## Requirements
 
 - [Yarn](https://yarnpkg.com/): Yarn is a package manager that doubles down as project manager.
-- API running. Link as environment variable `REACT_APP_API_URL`
+- API running. Link to API as environment variable `REACT_APP_API_URL`
+- [API Project](https://github.com/CristianMenguer/cbwa-ca1)
 
 ## Getting started
 
